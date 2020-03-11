@@ -32,3 +32,15 @@ http-response ^https?://user-api\.smzdm\.com/info requires-body=1,script-path=ht
 [MITM]
 hostname = *.smzdm.com
 ```
+
+## 米家获取 Token
+
+自动获取米家设备 Token，获取后输出到日志
+
+```
+[Script]
+http-response ^https://api\.io\.mi\.com/app/v2/home/device_list_page requires-body=1,script-path=https://raw.githubusercontent.com/hancj0528/Script/master/mitoken.js
+
+[MITM]
+hostname = api.io.mi.com
+```
