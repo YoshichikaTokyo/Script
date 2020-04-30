@@ -1,6 +1,6 @@
 /*
 [Script]
-http-response ^https?://app\.bilibili\.com/x/(v2|resource)/(feed|show|account)/(index|tab|teenagers) requires-body=1,script-path=https://raw.githubusercontent.com/hancj0528/Script/master/bilibili.js
+http-response ^https?://app\.bilibili\.com/x requires-body=1,script-path=https://raw.githubusercontent.com/hancj0528/Script/master/bilibili.js
 
 [MITM]
 hostname = app.bilibili.com
@@ -8,7 +8,8 @@ hostname = app.bilibili.com
 
 const path1 = "/x/v2/feed/index";
 const path2 = "/x/resource/show/tab";
-const path3 = "/x/v2/account/teenagers/status";
+const path3 = "/x/v2/account/mode/status";
+const path4 = "/x/v2/splash/list";
 
 let url = $request.url;
 let body = JSON.parse($response.body);
@@ -35,8 +36,8 @@ if (url.indexOf(path2) != -1) {
       name: "消息",
       uri: "bilibili://link/im_home",
       tab_id: "消息Top",
-      pos: 1
-    }
+      pos: 1,
+    },
   ];
   body["data"]["bottom"] = [
     {
@@ -48,7 +49,7 @@ if (url.indexOf(path2) != -1) {
       name: "首页",
       uri: "bilibili://main/home/",
       tab_id: "首页Bottom",
-      pos: 1
+      pos: 1,
     },
     {
       id: 178,
@@ -59,7 +60,7 @@ if (url.indexOf(path2) != -1) {
       name: "频道",
       uri: "bilibili://pegasus/channel/",
       tab_id: "频道Bottom",
-      pos: 2
+      pos: 2,
     },
     {
       id: 179,
@@ -70,7 +71,7 @@ if (url.indexOf(path2) != -1) {
       name: "动态",
       uri: "bilibili://following/home/",
       tab_id: "动态Bottom",
-      pos: 3
+      pos: 3,
     },
     {
       id: 181,
@@ -81,13 +82,18 @@ if (url.indexOf(path2) != -1) {
       name: "我的",
       uri: "bilibili://user_center/",
       tab_id: "我的Bottom",
-      pos: 4
-    }
+      pos: 4,
+    },
   ];
 }
 
 if (url.indexOf(path3) != -1) {
-  body["data"]["teenagers_status"] = 0;
+  body["data"][0]["status"] = 0;
+}
+
+if (url.indexOf(path4) != -1) {
+  body["data"]["list"] = [];
+  body["data"]["show"] = [];
 }
 
 $done({ body: JSON.stringify(body) });
